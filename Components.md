@@ -1,6 +1,5 @@
-Kubernetes installs the following Components:-
-
-| Container | Explanation | Master (or) Worker Node |
+| Container | Explanation | Master (or) Worker Node | 
+|-----------|-------------|-------------------------|
 | API Server | Gateway for the client such as command line, servers, mobile, any clients | M |
 | etcd | Is a distributed reliable Key-value store used to manage all values of the cluster | M |
 | Scheduler | Distributing work for the containers across the multiple nodes. It looks for newly rollout containers and assign them to the nodes | M |
