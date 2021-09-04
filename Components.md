@@ -1,3 +1,4 @@
+# Install Kubernetes installs the following Components:
 | Container | Explanation | Master (or) Worker Node | 
 |-----------|-------------|-------------------------|
 | API Server | Gateway for the client such as command line, servers, mobile, any clients | M |

@@ -1,2 +1,2 @@
 # k8commands
-Concepts Components Commands 3Cs
+3Cs = Concepts Components Commands 
