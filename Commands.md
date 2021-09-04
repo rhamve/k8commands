@@ -3,4 +3,8 @@
 
 | Command | Description | Comments |
 |---------|-------------|----------|
-| kubetctl run hello-minikube |||
+| kubectl run hello-minikube | is used to deploy an appliation on the cluster | |
+| kubectl cluster-info | cluster-info | |
+| kubectl get nodes | list all the nodes as part of the cluster | |
+
+
