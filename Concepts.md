@@ -31,5 +31,13 @@ Note: Difference between docker and pod is docker has one more application insta
 # k8s Observability
 # k8s Pod Design
 # k8s Services & Networking
+## K8s Services 
+Enable communication between various components within and outside of the application. Services enable loosle coupling between microservices in our application.
+K8s Service is an object just like pods, replicaset, or deployment that we worked with before. 
+### Node Port Service
+One of its use case is <b> Node Port </b> to listen to a port on the node and forward the request on the port to a pod on the port running the web application.
+### Cluster IP Service
+
+### Load Balancer Service
 # k8s State Persistance
 
