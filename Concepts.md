@@ -75,15 +75,45 @@ Map Request from Laptop -> Node, This is where K8s Service comes into play. Lapt
 This type of service is known as Node Port Service, because ** the service listens to a port (ex: 30008) on the node and forward request to the pods ** . Thus Service makes an internal pod accessible on a port on the node.
 
 #### Service Port Details:-
-Service can help us by mapping a port on the node to port oon the pod. For example, there are three ports involved:
+Service can help us by mapping a port on the node to port on the pod. For example, there are three ports involved:
 **Node(30008) (80) Service  -> (80) PoD**
 1. The port on the Pod where the actual Web Server is running is 80, it is referred to as target port because that is where the service forwards the request to
 2. The second port is the port on the service itself. It is simply referred to as port. The Service is infact like a Virtual Server, inside the node, inside the cluster. It has its own IP Address, and that IP address is called the cluster IP of the service.
 3. And finally we have the port on the node itself, which we use to access the Web Server externally and that is known as the node port. The default range of the node port is from **30000 to 32767**
 
 #### How to Create Service
-Service-definition.yml
+Service-definition.yml. The structure of the service is same as like other k8s objects. 
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: NodePort
+spec:
+  type: NodePort
+  ports: (it is an array starting with - targetPort, so multiple ports can be added within a single service)
+    - targetPort:80 (if we dont provide target port, then value of next port will be taken)
+      port: 80 
+      nodePort: 30008 (its automatically allocated within the range if we dont specify)
+  selector: (Connecting Service to the Pod: The above example mentions the targetPort, but which Pod of the target Port?, Same This Service to the Pod can be acomplished with Labels and selectors to link this together same as like replica set)
+    app: myapp
+    type: front-end
+    
+kubectl create -f service-definition.yml
+kubectl get services
+curl http://172.168.1.2:30008
 
+#### Multiple Pod Scenarios
+So far we talked about Service mapped to Single Pod. In Prod env, webapp will have mutiple pod with same **label: app:myapp and selector: app: myapp**. You dont have to do any additional configuration to distribute the load, random algorithm is used. In this scenario, K8s **automatically** creates service that spans across all the nodes in the cluster and maps the target port to the same port on all the nodes in the cluster. So the developer can access your application using the IP of any node in the cluster and using the same port number, which in this case is 30008. 
+
+curl http://172.168.1.2:3008
+curl http://172.168.1.3:3008
+d.curl http://172.168.1.4:3008
+
+Summary:
+Single Pod -> Single Node
+Multiple Pods -> Single Node
+Multiple Pods -> Multiple Node
+
+The service is created exactly the same without you having to do any additional steps during the service creation. When Pods are removed or added, the service is automatically updated. making it highly flexible and adaptive. Once created, you won't typically have to make any additional configuration changes.
 ### Cluster IP Service
 In this case, the service creates a Virtual IP inside the cluster to enable communication between different services, such as a set of front end servers and a set of back end servers.
 ### Load Balancer Service
