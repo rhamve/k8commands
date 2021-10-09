@@ -18,6 +18,8 @@
 # K8s Deployments 
 | Rolling Updates | Upgrade one after the other pod in order not to impact the users accessing the applications. Undo the recent changes in case of any errors. Paused and rolled out the all the deployment together. |  |
 | Deployment | Is the Kubernetes Object that is higher in the hierarchy. The Deployment provides the capability to upgrade the underlying instances seamlessly using rolling updates, undo changes, pause and resume changes |  |
+| Service | Is another Kubernetes Object. |  |
+
 
 
 
@@ -70,7 +72,18 @@ ssh to kubernetes node 192.168.1.2 from the laptop, then from inside the ssh nod
 Option 2 - WITHOUT SSH TO THE NODE:
 Requirement is to directly access WebPage / Application in the laptop, curl 172.168.1.2, output "Hello World!". 
 Map Request from Laptop -> Node, This is where K8s Service comes into play. Laptop -> SERVICE -> Node.
-This type of service is known as Node Port Service, because <b> the service listens to a port (ex: 10008) on the node and forward request to the pods </b>. Thus Service makes an internal pod accessible on a port on the node.
+This type of service is known as Node Port Service, because ** the service listens to a port (ex: 30008) on the node and forward request to the pods ** . Thus Service makes an internal pod accessible on a port on the node.
+
+#### Service Port Details:-
+Service can help us by mapping a port on the node to port oon the pod. For example, there are three ports involved:
+**Node(30008) (80) Service  -> (80) PoD**
+1. The port on the Pod where the actual Web Server is running is 80, it is referred to as target port because that is where the service forwards the request to
+2. The second port is the port on the service itself. It is simply referred to as port. The Service is infact like a Virtual Server, inside the node, inside the cluster. It has its own IP Address, and that IP address is called the cluster IP of the service.
+3. And finally we have the port on the node itself, which we use to access the Web Server externally and that is known as the node port. The default range of the node port is from **30000 to 32767**
+
+#### How to Create Service
+Service-definition.yml
+
 ### Cluster IP Service
 In this case, the service creates a Virtual IP inside the cluster to enable communication between different services, such as a set of front end servers and a set of back end servers.
 ### Load Balancer Service
